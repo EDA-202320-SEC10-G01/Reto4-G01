@@ -60,19 +60,19 @@ def load_data(control):
         
 
     for linea in archivo_arcos:
-        print(linea)
+
         if len(linea) == 1:
             pass
         else:
             
             vertice_principal = linea[0]
-            info_principal = archivo_vertices[int(vertice_principal) + 1]
+            info_principal = archivo_vertices[int(vertice_principal)]
             
             vertices_a_conectar = linea[1:]
             
             for vertice in vertices_a_conectar:
                 
-                info_a_conectar = archivo_vertices[int(vertice) + 1]
+                info_a_conectar = archivo_vertices[int(vertice)]
                 
                 lat1 = info_a_conectar[2]
                 lon1 = info_a_conectar[1]
@@ -84,8 +84,6 @@ def load_data(control):
                 model.añadir_arco_distancia(control, vertice, vertice_principal, distancia)
                 
 
-                
-          
 
     tiempo_carga = delta_time(tiempo_carga, get_time())
     memoria_carga = delta_memory(get_memory(), memoria_carga)
