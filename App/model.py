@@ -46,6 +46,7 @@ from DISClib.Algorithms.Sorting import insertionsort as ins
 from DISClib.Algorithms.Sorting import selectionsort as se
 from DISClib.Algorithms.Sorting import mergesort as merg
 from DISClib.Algorithms.Sorting import quicksort as quk
+import numpy as np
 assert cf
 
 """
@@ -61,19 +62,22 @@ def new_data_structs():
     Inicializa las estructuras de datos del modelo. Las crea de
     manera vacía para posteriormente almacenar la información.
     """
-    #TODO: Inicializar las estructuras de datos
-    pass
+    data_structs = {"malla_vial": None}
+    
+    data_structs["malla_vial"] = gr.newGraph()
+    
+    return data_structs
 
 
 # Funciones para agregar informacion al modelo
 
-def add_data(data_structs, data):
-    """
-    Función para agregar nuevos elementos a la lista
-    """
-    #TODO: Crear la función para agregar elementos a una lista
-    pass
+def añadir_arco_distancia(control, origen, destino, distancia):
 
+    gr.addEdge(control["malla_vial"], origen, destino, distancia)
+    
+def añadir_vertice(control, vertice):
+    
+    gr.insertVertex(control["malla_vial"], vertice)
 
 # Funciones para creacion de datos
 
@@ -167,35 +171,23 @@ def req_8(data_structs):
     pass
 
 
-# Funciones utilizadas para comparar elementos dentro de una lista
-
-def compare(data_1, data_2):
-    """
-    Función encargada de comparar dos datos
-    """
-    #TODO: Crear función comparadora de la lista
-    pass
-
-# Funciones de ordenamiento
-
-
-def sort_criteria(data_1, data_2):
-    """sortCriteria criterio de ordenamiento para las funciones de ordenamiento
-
-    Args:
-        data1 (_type_): _description_
-        data2 (_type_): _description_
-
-    Returns:
-        _type_: _description_
-    """
-    #TODO: Crear función comparadora para ordenar
-    pass
-
-
-def sort(data_structs):
-    """
-    Función encargada de ordenar la lista con los datos
-    """
-    #TODO: Crear función de ordenamiento
-    pass
+def haversine_function(lat1, lon1, lat2, lon2):
+        
+    earth_radius = 6371
+        
+    lat1 = np.radians(float(lat1))
+    lat2 = np.radians(float(lat2))
+    lon1 = np.radians(float(lon1))
+    lon2 = np.radians(float(lon2))
+        
+    lat_diff = lat2 - lat1
+    lon_diff = lon2 - lon1
+        
+    a = (np.sin(lat_diff/2))**2
+    b = np.cos(lat1)
+    c = np.cos(lat2)
+    d = (np.sin(lon_diff/2))**2       
+    e = a + b*c*d
+        
+        
+    return 2 * earth_radius * np.arcsin(np.sqrt(e))

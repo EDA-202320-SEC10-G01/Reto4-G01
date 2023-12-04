@@ -44,8 +44,7 @@ def new_controller():
     """
         Se crea una instancia del controlador
     """
-    #TODO: Llamar la función del controlador donde se crean las estructuras de datos
-    pass
+    return controller.new_controller()
 
 
 def print_menu():
@@ -66,8 +65,13 @@ def load_data(control):
     """
     Carga los datos
     """
-    #TODO: Realizar la carga de datos
-    pass
+    print("\nCargando información de los archivos ....")
+    tiempo, memoria = controller.load_data(control)
+    print("\nInformación cargada exitosamente.")
+    print(f"Tiempo de carga: {tiempo} segundos")
+    print(f"Memoria usada: {memoria} megabytes")
+    
+    
 
 
 def print_data(control, id):
@@ -155,8 +159,7 @@ if __name__ == "__main__":
         print_menu()
         inputs = input('Seleccione una opción para continuar\n')
         if int(inputs) == 1:
-            print("Cargando información de los archivos ....\n")
-            data = load_data(control)
+            load_data(control)
         elif int(inputs) == 2:
             print_req_1(control)
 

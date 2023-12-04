@@ -35,19 +35,64 @@ def new_controller():
     """
     Crea una instancia del modelo
     """
-    #TODO: Llamar la función del modelo que crea las estructuras de datos
-    pass
+    return model.new_data_structs()
 
 
 # Funciones para la carga de datos
 
-def load_data(control, filename):
-    """
-    Carga los datos del reto
-    """
-    # TODO: Realizar la carga de datos
-    pass
+def load_data(control):
+    
+    tracemalloc.start()
+    tiempo_carga = get_time()
+    memoria_carga = get_memory()
+    
+    vertices = cf.data_dir + f"tickets/bogota_vertices.txt"
+    arcos = cf.data_dir + f"tickets/bogota_arcos.txt"
+    
+    archivo_vertices = list(csv.reader(open(vertices, encoding="utf-8"), delimiter=","))
+    archivo_arcos = list(csv.reader(open(arcos, encoding="utf-8"), delimiter=" "))
+    
+    
+    for linea in archivo_vertices:
 
+        identificador, longitud, latitud = linea
+        model.añadir_vertice(control, identificador)
+        
+
+    for linea in archivo_arcos:
+        print(linea)
+        if len(linea) == 1:
+            pass
+        else:
+            
+            vertice_principal = linea[0]
+            info_principal = archivo_vertices[int(vertice_principal) + 1]
+            
+            vertices_a_conectar = linea[1:]
+            
+            for vertice in vertices_a_conectar:
+                
+                info_a_conectar = archivo_vertices[int(vertice) + 1]
+                
+                lat1 = info_a_conectar[2]
+                lon1 = info_a_conectar[1]
+                lat2 = info_principal[2]
+                lon2 = info_principal[1]
+                
+                distancia = model.haversine_function(lat1, lon1, lat2, lon2)
+                
+                model.añadir_arco_distancia(control, vertice, vertice_principal, distancia)
+                
+
+                
+          
+
+    tiempo_carga = delta_time(tiempo_carga, get_time())
+    memoria_carga = delta_memory(get_memory(), memoria_carga)
+    
+    tracemalloc.stop()
+    
+    return tiempo_carga, memoria_carga
 
 # Funciones de ordenamiento
 
