@@ -66,28 +66,25 @@ def load_data(control):
     Carga los datos
     """
     print("\nCargando información de los archivos ....")
-    tiempo, memoria = controller.load_data(control)
+    tiempo, memoria, vertices, arcos = controller.load_data(control)
     print("\nInformación cargada exitosamente.")
     print(f"Tiempo de carga: {tiempo} segundos")
     print(f"Memoria usada: {memoria} megabytes")
+    print(f"Numero de vertices: {vertices}")    
+    print(f"Numero de arcos: {arcos}\n")
     
     
-
-
-def print_data(control, id):
-    """
-        Función que imprime un dato dado su ID
-    """
-    #TODO: Realizar la función para imprimir un elemento
-    pass
 
 def print_req_1(control):
     """
         Función que imprime la solución del Requerimiento 1 en consola
     """
-    # TODO: Imprimir el resultado del requerimiento 1
-    pass
-
+    latitud_origen = input("Ingrese la latitud del origen: ")
+    longitud_origen = input("Ingrese la longitud del origen: ")
+    latitud_destino = input("Ingrese la latitud del destino: ")
+    longitud_destino = input("Ingrese la longitud del destino: ")
+    
+    print(controller.req_1(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino))
 
 def print_req_2(control):
     """

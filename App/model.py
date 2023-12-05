@@ -62,7 +62,8 @@ def new_data_structs():
     Inicializa las estructuras de datos del modelo. Las crea de
     manera vacía para posteriormente almacenar la información.
     """
-    data_structs = {"malla_vial": None}
+    data_structs = {"malla_vial": None,
+                    "vertices" : None}
     
     data_structs["malla_vial"] = gr.newGraph()
     
@@ -79,56 +80,46 @@ def añadir_vertice(control, vertice):
     
     gr.insertVertex(control["malla_vial"], vertice)
 
-# Funciones para creacion de datos
-
-def new_data(id, info):
-    """
-    Crea una nueva estructura para modelar los datos
-    """
-    #TODO: Crear la función para estructurar los datos
-    pass
-
 
 # Funciones de consulta
 
-def get_data(data_structs, id):
-    """
-    Retorna un dato a partir de su ID
-    """
-    #TODO: Crear la función para obtener un dato de una lista
-    pass
-
-
-def data_size(data_structs):
-    """
-    Retorna el tamaño de la lista de datos
-    """
-    #TODO: Crear la función para obtener el tamaño de una lista
-    pass
-
-
-def req_1(data_structs):
+def req_1(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino):
+    
     """
     Función que soluciona el requerimiento 1
     """
-    # TODO: Realizar el requerimiento 1
-    pass
+    
+    origen, destino = obtener_vertices_cercanos(control, latitud_inicial, longitud_inicial, latitud_final, longitud_final)
+    
+    grafo_a_recorrer = dfs.DepthFirstSearch(control["malla_vial"], origen)
+    
+    informacion = dfs.pathTo(grafo_a_recorrer, destino)
+    
+    return informacion
+    
 
 
-def req_2(data_structs):
+def req_2(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino):
+    
     """
-    Función que soluciona el requerimiento 2
+    Función que soluciona el requerimiento 1
     """
-    # TODO: Realizar el requerimiento 2
-    pass
-
+    
+    origen, destino = obtener_vertices_cercanos(control, latitud_inicial, longitud_inicial, latitud_final, longitud_final)
+    
+    grafo_a_recorrer = bfs.BreathFirstSearch(control["malla_vial"], origen)
+    
+    informacion = bfs.pathTo(grafo_a_recorrer, destino)
+    
+    return informacion
+    
 
 def req_3(data_structs):
     """
     Función que soluciona el requerimiento 3
     """
-    # TODO: Realizar el requerimiento 3
-    pass
+    
+    
 
 
 def req_4(data_structs):
@@ -191,3 +182,26 @@ def haversine_function(lat1, lon1, lat2, lon2):
         
         
     return 2 * earth_radius * np.arcsin(np.sqrt(e))
+
+
+def obtener_vertices_cercanos(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino):
+    
+    vertice_origen = {"vertice": 0, "distancia": haversine_function(latitud_origen, longitud_origen, control["vertices"][0][2], control["vertices"][0][1])}
+    vertice_destino = {"vertice": 0, "distancia": haversine_function(latitud_destino, longitud_destino, control["vertices"][0][2], control["vertices"][0][1])}
+    
+    for vertice in control["vertices"]:
+        
+        distancia = haversine_function(latitud_origen, longitud_origen, vertice[2], vertice[1])
+        
+        if distancia < vertice_origen["distancia"]:
+            
+            vertice_origen["vertice"] = vertice[0]
+            vertice_origen["distancia"] = distancia
+            
+        if distancia < vertice_destino["distancia"]:
+            
+            vertice_destino["vertice"] = vertice[0]
+            vertice_destino["distancia"] = distancia
+            
+    return vertice_origen["vertice"], vertice_destino["vertice"]
+    

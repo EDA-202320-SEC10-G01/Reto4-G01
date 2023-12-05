@@ -84,40 +84,37 @@ def load_data(control):
                 model.añadir_arco_distancia(control, vertice, vertice_principal, distancia)
                 
 
+    control["vertices"] = archivo_vertices
+
 
     tiempo_carga = delta_time(tiempo_carga, get_time())
     memoria_carga = delta_memory(get_memory(), memoria_carga)
+    numero_vertices = model.gr.numVertices(control["malla_vial"])
+    numero_arcos = model.gr.numEdges(control["malla_vial"])
     
     tracemalloc.stop()
     
-    return tiempo_carga, memoria_carga
-
-# Funciones de ordenamiento
-
-def sort(control):
-    """
-    Ordena los datos del modelo
-    """
-    #TODO: Llamar la función del modelo para ordenar los datos
-    pass
+    return tiempo_carga, memoria_carga, numero_vertices, numero_arcos
 
 
-# Funciones de consulta sobre el catálogo
-
-def get_data(control, id):
-    """
-    Retorna un dato por su ID.
-    """
-    #TODO: Llamar la función del modelo para obtener un dato
-    pass
-
-
-def req_1(control):
+def req_1(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino):
     """
     Retorna el resultado del requerimiento 1
     """
-    # TODO: Modificar el requerimiento 1
-    pass
+    
+    tracemalloc.start()
+    tiempo_req_1 = get_time()
+    memoria_req_1 = get_memory()
+    
+    model_response = model.req_1(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino)
+    
+    tiempo_req_1 = delta_time(tiempo_req_1, get_time())
+    memoria_req_1 = delta_memory(get_memory(), memoria_req_1)
+    
+    tracemalloc.stop()
+    
+    return tiempo_req_1, memoria_req_1, model_response
+    
 
 
 def req_2(control):
@@ -181,7 +178,7 @@ def get_time():
     """
     devuelve el instante tiempo de procesamiento en milisegundos
     """
-    return float(time.perf_counter()*1000)
+    return float(time.perf_counter())
 
 
 def delta_time(start, end):
@@ -210,5 +207,5 @@ def delta_memory(stop_memory, start_memory):
     for stat in memory_diff:
         delta_memory = delta_memory + stat.size_diff
     # de Byte -> kByte
-    delta_memory = delta_memory/1024.0
+    delta_memory = delta_memory/1024000.0
     return delta_memory
