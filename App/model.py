@@ -160,55 +160,6 @@ def req_3(control, localidad, n_camaras):
     
     return prim_mst
     
-        
-            
-            
-            
-            
-    
-
-def req_4(data_structs):
-    
-
-
-def req_5(data_structs):
-    
-
-
-def req_6(data_structs,cantidad_comparendos,policias_cercanos):
-    
-
-    
-
-
-def req_7(data_structs,origen_lat,origen_lon,destino_lat,destino_lon):
-
-    origen = buscar_vertice(data_structs, origen_lat, origen_lon)
-    destino = buscar_vertice(data_structs, destino_lat, destino_lon)
-    haversine = data_structs["malla_vial_haversine"]
-    aristas = lt.newlist("ARRAY_LIST")
-    dijkstra = djk.dijkstra(comparendos, origen)
-    dist = 0
-    if djk.hasPathTo(camino, destino):
-        path = djk.pathTo(camino, destino)
-        for i in range(1, lt.size(path)):
-            v1 = lt.getElement(path, i)
-            v2 = lt.getElement(path, i + 1)
-            lt.addLast(v1, v2)
-            dist+=gr.getEdge(haversine, v1, v2)
-        return path,dist
-    else:
-        return None
-
-        
-
-
-def req_8(data_structs):
-    """
-    Función que soluciona el requerimiento 8
-    """
-    # TODO: Realizar el requerimiento 8
-    pass
 
 
 def haversine_function(lat1, lon1, lat2, lon2):
