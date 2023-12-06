@@ -156,13 +156,10 @@ def req_6(control):
     pass
 
 
-def req_7(control):
-    """
-    Retorna el resultado del requerimiento 7
-    """
-    # TODO: Modificar el requerimiento 7
-    pass
+def req_7(control,origen_lat,origen_lon,destino_lat,destino_lon):
+    return model.req_7(control["model"],origen_lat,origen_lon,destino_lat,destino_lon)
 
+    
 
 def req_8(control):
     """
