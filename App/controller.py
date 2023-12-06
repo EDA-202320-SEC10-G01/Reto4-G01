@@ -59,7 +59,7 @@ def load_data(control):
     for linea in archivo_vertices:
 
         identificador, longitud, latitud = linea
-        model.añadir_vertice(control, identificador)
+        model.añadir_vertice(control, int(identificador))
         
 
     for linea in archivo_arcos:
@@ -84,7 +84,7 @@ def load_data(control):
                 
                 distancia = model.haversine_function(lat1, lon1, lat2, lon2)
                 
-                model.añadir_arco_distancia(control, vertice, vertice_principal, distancia)
+                model.añadir_arco_distancia(control, int(vertice), int(vertice_principal), distancia)
                 
     control["vertices"] = archivo_vertices
     control["comparendos"] = archivo_comparendos
@@ -146,7 +146,7 @@ def req_3(control, localidad, n_camaras):
     tiempo_req_1 = get_time()
     memoria_req_1 = get_memory()
     
-    model_response = model.req_1(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino)
+    model_response = model.req_1(control, localidad, n_camaras)
     
     tiempo_req_1 = delta_time(tiempo_req_1, get_time())
     memoria_req_1 = delta_memory(get_memory(), memoria_req_1)

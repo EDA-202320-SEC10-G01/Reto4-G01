@@ -85,15 +85,23 @@ def print_req_1(control):
     latitud_destino = input("Ingrese la latitud del destino: ")
     longitud_destino = input("Ingrese la longitud del destino: ")
     
-    print(controller.req_1(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino))
+    controller_response = controller.req_1(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino)
+    
+    print("-----------Requerimiento 1-----------")
+    print("Tiempo de ejecución: ", controller_response[0])
+    print("Memoria usada: ", controller_response[1])
+    print("Camino: ", controller_response[2])
 
 def print_req_2(control):
     """
         Función que imprime la solución del Requerimiento 2 en consola
     """
-    # TODO: Imprimir el resultado del requerimiento 2
-    pass
-
+    latitud_origen = input("Ingrese la latitud del origen: ")
+    longitud_origen = input("Ingrese la longitud del origen: ")
+    latitud_destino = input("Ingrese la latitud del destino: ")
+    longitud_destino = input("Ingrese la longitud del destino: ")
+    
+    print(controller.req_1(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino))
 
 def print_req_3(control):
     """

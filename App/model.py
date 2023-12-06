@@ -97,7 +97,21 @@ def req_1(control, latitud_origen, longitud_origen, latitud_destino, longitud_de
     
     hay_camino = bfs.hasPathTo(grafo_a_recorrer, destino)
     
-    return informacion
+    if hay_camino:
+        
+        informacion = bfs.pathTo(grafo_a_recorrer, destino)
+        
+        vertices = lt.newList()
+        
+        while not st.isEmpty(informacion):
+            
+            lt.addLast(vertices, st.pop(informacion))
+          
+    else:
+        
+        vertices = None
+    
+    return vertices
             
         
 
