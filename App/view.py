@@ -127,12 +127,20 @@ def print_req_6(control):
     pass
 
 
-def print_req_7(control):
-    """
-        Función que imprime la solución del Requerimiento 7 en consola
-    """
-    # TODO: Imprimir el resultado del requerimiento 7
-    pass
+def print_req_7(control,latsup,latsdown,lonleft,lonright):
+    lato = input("Ingrese la latitud del origen: ")
+    lono = input("Ingrese la longitud del origen: ")
+    latd = input("Ingrese la latitud del destino: ")
+    lond = input("Ingrese la longitud del destino: ")
+    if lond<latsdown or lond>latsup or lono<lonleft or lono>lonright:
+        print("Coordenadas fuera del rango")
+    elif latd<latsdown or latd>latsup or lato<lonleft or lato>lonright:
+        print("Coordenadas fuera del rango")
+    else: 
+        path,distancia = controller.req_7(control,lato,lono,latd,lond)
+        print("La distancia es de: ",km)
+        print("El camino es: ",path) 
+        print("Los vértices son:",lt.size(path))       
 
 
 def print_req_8(control):
