@@ -31,6 +31,7 @@ from DISClib.DataStructures import mapentry as me
 assert cf
 from tabulate import tabulate
 import traceback
+import threading
 
 """
 La vista se encarga de la interacción con el usuario
@@ -146,10 +147,7 @@ def print_req_8(control):
 control = new_controller()
 
 # main del reto
-if __name__ == "__main__":
-    """
-    Menu principal
-    """
+def thread_cycle():
     working = True
     #ciclo del menu
     while working:
@@ -188,3 +186,12 @@ if __name__ == "__main__":
         else:
             print("Opción errónea, vuelva a elegir.\n")
     sys.exit(0)
+
+if __name__ == "__main__":
+    threading.stack_size(67108864)
+    sys.setrecursionlimit(2 ** 20)
+    thread = threading.Thread(target=thread_cycle)
+    thread.start()
+    """
+    Menu principal
+    """

@@ -48,9 +48,12 @@ def load_data(control):
     
     vertices = cf.data_dir + f"tickets/bogota_vertices.txt"
     arcos = cf.data_dir + f"tickets/bogota_arcos.txt"
+    comparendos = cf.data_dir + f"tickets/comparendos_2019_bogota_vertices.csv"
     
     archivo_vertices = list(csv.reader(open(vertices, encoding="utf-8"), delimiter=","))
     archivo_arcos = list(csv.reader(open(arcos, encoding="utf-8"), delimiter=" "))
+    archivo_comparendos = list(csv.reader(open(comparendos, encoding="utf-8"), delimiter=","))
+    
     
     
     for linea in archivo_vertices:
@@ -83,9 +86,9 @@ def load_data(control):
                 
                 model.añadir_arco_distancia(control, vertice, vertice_principal, distancia)
                 
-
     control["vertices"] = archivo_vertices
-
+    control["comparendos"] = archivo_comparendos
+   
 
     tiempo_carga = delta_time(tiempo_carga, get_time())
     memoria_carga = delta_memory(get_memory(), memoria_carga)
@@ -117,20 +120,40 @@ def req_1(control, latitud_origen, longitud_origen, latitud_destino, longitud_de
     
 
 
-def req_2(control):
+def req_2(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino):
     """
     Retorna el resultado del requerimiento 2
     """
-    # TODO: Modificar el requerimiento 2
-    pass
+    tracemalloc.start()
+    tiempo_req_1 = get_time()
+    memoria_req_1 = get_memory()
+    
+    model_response = model.req_1(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino)
+    
+    tiempo_req_1 = delta_time(tiempo_req_1, get_time())
+    memoria_req_1 = delta_memory(get_memory(), memoria_req_1)
+    
+    tracemalloc.stop()
+    
+    return tiempo_req_1, memoria_req_1, model_response
 
 
-def req_3(control):
+def req_3(control, localidad, n_camaras):
     """
     Retorna el resultado del requerimiento 3
     """
-    # TODO: Modificar el requerimiento 3
-    pass
+    tracemalloc.start()
+    tiempo_req_1 = get_time()
+    memoria_req_1 = get_memory()
+    
+    model_response = model.req_1(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino)
+    
+    tiempo_req_1 = delta_time(tiempo_req_1, get_time())
+    memoria_req_1 = delta_memory(get_memory(), memoria_req_1)
+    
+    tracemalloc.stop()
+    
+    return tiempo_req_1, memoria_req_1, model_response
 
 
 def req_4(control):
