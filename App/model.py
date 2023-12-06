@@ -63,9 +63,11 @@ def new_data_structs():
     manera vacía para posteriormente almacenar la información.
     """
     data_structs = {"malla_vial": None,
-                    "vertices" : None}
+                    "vertices" : None,
+                    "comparendos" : None}
     
     data_structs["malla_vial"] = gr.newGraph()
+    
     
     return data_structs
 
@@ -89,15 +91,15 @@ def req_1(control, latitud_origen, longitud_origen, latitud_destino, longitud_de
     Función que soluciona el requerimiento 1
     """
     
-    origen, destino = obtener_vertices_cercanos(control, latitud_inicial, longitud_inicial, latitud_final, longitud_final)
+    origen, destino = obtener_vertices_cercanos(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino)
     
-    grafo_a_recorrer = dfs.DepthFirstSearch(control["malla_vial"], origen)
+    grafo_a_recorrer = bfs.BreathFirstSearch(control["malla_vial"], origen)
     
-    informacion = dfs.pathTo(grafo_a_recorrer, destino)
+    hay_camino = bfs.hasPathTo(grafo_a_recorrer, destino)
     
     return informacion
-    
-
+            
+        
 
 def req_2(control, latitud_origen, longitud_origen, latitud_destino, longitud_destino):
     
@@ -114,13 +116,54 @@ def req_2(control, latitud_origen, longitud_origen, latitud_destino, longitud_de
     return informacion
     
 
-def req_3(data_structs):
+def req_3(control, localidad, n_camaras):
     """
     Función que soluciona el requerimiento 3
     """
     
+    comparendos = control["comparendos"]
     
-
+    lista_comparendos_localidad = []
+    indices_comparendos_localidad = {}
+    
+    for comparendo in comparendos:
+            
+        if comparendo["18"] not in indices_comparendos_localidad:
+                
+            lista_comparendos_localidad.append({"vertice": comparendo["18"], "comparendos": 1})
+            indices_comparendos_localidad[comparendo["18"]] = len(lista_comparendos_localidad) - 1
+            
+        else:
+                
+            lista_comparendos_localidad[indices_comparendos_localidad[comparendo["18"]]]["comparendos"] += 1
+            
+            
+    lista_comparendos_localidad.sort(key = lambda x: x["comparendos"], reverse = True)
+    
+    vertices_subgrafo = lista_comparendos_localidad[:n_camaras]
+    
+    grafo_subgrafo = gr.newGraph()
+    
+    for vertice in vertices_subgrafo:
+        
+        gr.insertVertex(grafo_subgrafo, vertice["vertice"])
+        
+    for i in range(len(vertices_subgrafo)):
+        
+        for j in range(i + 1, len(vertices_subgrafo)):
+            
+            distancia = haversine_function(vertices_subgrafo[i]["vertice"][2], vertices_subgrafo[i]["vertice"][1], vertices_subgrafo[j]["vertice"][2], vertices_subgrafo[j]["vertice"][1])
+            
+            gr.addEdge(grafo_subgrafo, vertices_subgrafo[i]["vertice"], vertices_subgrafo[j]["vertice"], distancia)
+            
+    prim_search = prim.PrimMST(grafo_subgrafo, vertices_subgrafo[0]["vertice"])
+    
+        
+            
+            
+            
+            
+    
 
 def req_4(data_structs):
     
