@@ -156,7 +156,9 @@ def req_3(control, localidad, n_camaras):
             
             gr.addEdge(grafo_subgrafo, vertices_subgrafo[i]["vertice"], vertices_subgrafo[j]["vertice"], distancia)
             
-    prim_search = prim.PrimMST(grafo_subgrafo, vertices_subgrafo[0]["vertice"])
+    prim_mst = prim.PrimMST(grafo_subgrafo)
+    
+    return prim_mst
     
         
             
